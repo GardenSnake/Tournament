@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tournament</title>
+<script>
+var players  = [];
+var round = 0;
+var totPlayers=32;
+var bonus = 5;
+
+function getPlayers() {
+for(var i =0;i<totPlayers;i++)
+	players[i]= Math.floor((Math.random() * 51) + 50);
+printPlayers();
+}
+
+function printPlayers(){
+var str = "Contestants: ";
+for(var i=0;i<players.length;i+=2)
+	str += players[i] + " vs " + players[i+1] + " | ";
+document.getElementById("p1").innerHTML = str;
+}
+
+function nextRound(){
+round++;
+if(round%2==0)
+	printPlayers();
+else{
+var winners = [];
+var even,odd,even2,odd2;
+var eventage;
+var compute;
+for(var i=0;i<players.length;i+=2){
+even = players[i];
+odd = players[i+1];
+even2 = even;
+odd2 = odd;
+if(even>odd) 
+	even2 = even + bonus;
+if (odd>even) 
+	odd2 = odd + bonus;
+var compute = Math.floor((Math.random() * (even2 + odd2)));
+winners[i/2] = (compute<even2) ? even : odd;
+}
+players = winners;
+    document.getElementById("p2").innerHTML = "Winners of Round " +Math.ceil(round/2)+ " : "+ winners;
+}
+
+}
+
+function restart(){
+round = 0;
+getPlayers();
+}
+
+</script>
+</head>
+
+<body onload="getPlayers()">
+	<h1>Tournament</h1>
+	<p id="p1">My first paragraph.</p>
+	<p id="p2"></p>
+	<button type="button" onclick="restart()">RESTART</button>
+	<button type="button" onclick="nextRound()">Next round</button>
+</body>
+</html>
